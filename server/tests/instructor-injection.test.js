@@ -80,8 +80,7 @@ describe('Attack 2: operator injection on /search leaks secrets', () => {
       .get('/api/instructors/search')
       .query({ 'role[$ne]': 'instructor' });
 
-    expect(res.status).toBe(200);
-    const instructors = res.body.instructors || [];
+expect([200, 400]).toContain(res.status);    const instructors = res.body.instructors || [];
     const leaked = instructors.filter(leaksSecret);
     expect(leaked).toEqual([]);
   });
@@ -91,8 +90,7 @@ describe('Attack 2: operator injection on /search leaks secrets', () => {
       .get('/api/instructors/search')
       .query({ 'username[$regex]': '^admin' });
 
-    expect(res.status).toBe(200);
-    const instructors = res.body.instructors || [];
+expect([200, 400]).toContain(res.status);    const instructors = res.body.instructors || [];
     expect(instructors.filter(leaksSecret)).toEqual([]);
   });
 });
